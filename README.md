@@ -9,8 +9,8 @@ API doc.
 
 ## Usage
 
-Just visit `https://typeapi.barelyhuman.dev/pkg/<npm-package-name>` to see
-the types of a package.
+Just visit `https://typeapi.barelyhuman.dev/pkg/<npm-package-name>` to see the
+types of a package.
 
 eg:
 
