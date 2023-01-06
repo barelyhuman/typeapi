@@ -1,0 +1,19 @@
+---
+import plaintext from 'highlight.js/lib/languages/plaintext'
+import hljs from 'highlight.js/lib/core'
+import 'highlight.js/styles/nord.css'
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+hljs.registerLanguage('plaintext', plaintext)
+
+const host = Astro.request.headers.get('host')
+const origin = Astro.request.headers.get('host')
+
+const exampleCode = (origin || host) + `/pkg/@barelyhuman/tocolor@next`
+const code = hljs.highlight(exampleCode, { language: 'plaintext' }).value
+---
+
+<BaseLayout>
+  <p class="text-zinc-300 mb-2">Example:</p>
+  <pre class="bg-zinc-800 rounded p-4 whitespace-pre-wrap" set:html={code} />
+</BaseLayout>

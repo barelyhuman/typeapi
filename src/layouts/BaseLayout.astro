@@ -1,0 +1,28 @@
+---
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <main class="max-w-5xl p-1 md:p-4 mx-auto">
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+  }
+
+  html,
+  body {
+    @apply bg-zinc-900 text-zinc-400;
+  }
+
+  .details[open] {
+    @apply bg-zinc-800;
+  }
+</style>

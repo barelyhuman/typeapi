@@ -1,0 +1,57 @@
+---
+import { fetchPackageMeta, fetchTypeDefinitions } from '../../../lib/api'
+import { readTypescriptFileBuffer } from '../../../lib/types'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import DeclarationRenderer from '../../components/DeclarationRenderer'
+import typescript from 'highlight.js/lib/languages/typescript'
+import hljs from 'highlight.js/lib/core'
+import 'highlight.js/styles/nord.css'
+import CodeGroup from '../../components/CodeGroup'
+
+hljs.registerLanguage('typescript', typescript)
+
+const pkgName = Astro.params.pkgName
+const pkgMeta = await fetchPackageMeta(pkgName)
+const typeDefs = await fetchTypeDefinitions(
+  pkgName,
+  pkgMeta.types || 'dist/index.d.ts'
+)
+const declarations = await readTypescriptFileBuffer(typeDefs)
+
+declarations.forEach(nodeCodeToHTML, {
+  highlighter: code => hljs.highlight(code, { language: 'typescript' }).value,
+})
+
+const declarationsByKind = declarations.reduce((acc, item) => {
+  ;(acc[item.type.label] || (acc[item.type.label] = []),
+  acc[item.type.label]).push(item)
+
+  return acc
+}, {})
+
+const allTypes = hljs.highlight(typeDefs, { language: 'typescript' }).value
+
+function nodeCodeToHTML(node, index, src) {
+  src[index].code = this.highlighter(node.code)
+}
+---
+
+<BaseLayout>
+  <div class="flex items-end gap-2 mb-4">
+    <h1 class="font-title text-zinc-200 text-2xl">
+      {pkgName}
+    </h1>
+    <p>
+      <small class="text-xs">
+        {pkgMeta.version}
+      </small>
+    </p>
+  </div>
+  <DeclarationRenderer data={declarationsByKind} />
+  <CodeGroup name="All">
+    <pre
+      class={`ml-2 p-4 select-all whitespace-pre-wrap`}
+      set:html={allTypes}
+    />
+  </CodeGroup>
+</BaseLayout>
