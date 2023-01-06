@@ -9,13 +9,13 @@ API doc.
 
 ## Usage
 
-Just visit `https://typeapi.barelyhuman.dev/package/<npm-package-name>` to see
+Just visit `https://typeapi.barelyhuman.dev/pkg/<npm-package-name>` to see
 the types of a package.
 
 eg:
 
 ```
-https://typeapi.barelyhuman.dev/package/@barelyhuman/tocolor@next
+https://typeapi.barelyhuman.dev/pkg/@barelyhuman/tocolor@next
 ```
 
 ### Roadmap
