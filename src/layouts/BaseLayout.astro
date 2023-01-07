@@ -1,13 +1,22 @@
 ---
+import PackageForm from '../components/PackageForm'
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      import '../scripts/router.js'
+    </script>
   </head>
   <body>
     <main class="max-w-5xl p-1 md:p-4 mx-auto">
+      <div
+        class="animate-enter mt-6 flex w-full items-center justify-center lg:justify-end"
+      >
+        <PackageForm client:load />
+      </div>
       <slot />
     </main>
   </body>
@@ -15,6 +24,10 @@
 
 <style is:global>
   :root {
+  }
+
+  .turbo-progress-bar {
+    @apply h-1 bg-white;
   }
 
   html,

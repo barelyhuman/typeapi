@@ -3,17 +3,41 @@ import plaintext from 'highlight.js/lib/languages/plaintext'
 import hljs from 'highlight.js/lib/core'
 import 'highlight.js/styles/nord.css'
 import BaseLayout from '../layouts/BaseLayout.astro'
+import Command from '../components/Command'
 
 hljs.registerLanguage('plaintext', plaintext)
 
 const host = Astro.request.headers.get('host')
 const origin = Astro.request.headers.get('host')
 
-const exampleCode = (origin || host) + `/pkg/@barelyhuman/tocolor@next`
-const code = hljs.highlight(exampleCode, { language: 'plaintext' }).value
+const exampleURL = (origin || host) + `/pkg/@barelyhuman/tocolor@next`
+const exampleCode = hljs.highlight(exampleURL, { language: 'plaintext' }).value
 ---
 
 <BaseLayout>
-  <p class="text-zinc-300 mb-2">Example:</p>
-  <pre class="bg-zinc-800 rounded p-4 whitespace-pre-wrap" set:html={code} />
+  <section class="py-20 min-h-[calc(100vh-7rem)]">
+    <h2 class="font-bold text-4xl sm:text-6xl leading-[1.1] sm:leading-[1.25]">
+      Typescript API Docs made simple
+      <span class="text-white"> typeapi</span>
+    </h2>
+    <p class="mt-4">
+      Just direct your browser to our url appended with the package name, like
+      <span class="text-white">below</span>
+    </p>
+    <div class="pt-10 space-y-4">
+      <Command>
+        {exampleCode}
+      </Command>
+    </div>
+    <div class="pt-4 space-x-4 flex items-center">
+      <a
+        rel="external"
+        target="_blank"
+        href="https://github.com/barelyhuman/typeapi"
+        class="px-4 py-2 font-medium text-md text-zinc-400 border rounded-md flex items-center hover:bg-zinc-800"
+      >
+        Source
+      </a>
+    </div>
+  </section>
 </BaseLayout>

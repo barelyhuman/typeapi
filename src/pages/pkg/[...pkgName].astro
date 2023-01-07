@@ -1,6 +1,6 @@
 ---
-import { fetchPackageMeta, fetchTypeDefinitions } from '../../../lib/api'
-import { readTypescriptFileBuffer } from '../../../lib/types'
+import { fetchPackageMeta, fetchTypeDefinitions } from '../../lib/api'
+import { readTypescriptFileBuffer } from '../../lib/types'
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import DeclarationRenderer from '../../components/DeclarationRenderer'
 import typescript from 'highlight.js/lib/languages/typescript'
@@ -39,6 +39,9 @@ function nodeCodeToHTML(node, index, src) {
 <BaseLayout>
   <div class="flex items-end gap-2 mb-4">
     <h1 class="font-title text-zinc-200 text-2xl">
+      <span class="text-zinc-600"
+        ><a class="hover:text-zinc-50" href="/">~</a> /</span
+      >
       {pkgName}
     </h1>
     <p>
