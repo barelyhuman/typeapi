@@ -1,4 +1,4 @@
-export default function PackageForm() {
+export default function PackageSearchForm() {
   return (
     <>
       <form method="GET" action="/pkg-redirect">
@@ -21,7 +21,7 @@ export default function PackageForm() {
             </svg>
           </label>
           <input
-            class="h-12 w-full bg-transparent py-3 text-sm font-medium text-zinc-50 placeholder-muted focus:outline-none sm:h-10"
+            class="h-12 w-full bg-transparent py-3 text-sm font-medium text-zinc-50 placeholder-zinc-600 focus:outline-none sm:h-10"
             name="packageName"
             placeholder="package[@version][@tag]"
           />
