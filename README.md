@@ -23,7 +23,7 @@ https://typeapi.barelyhuman.dev/pkg/@barelyhuman/tocolor@next
 - [x] basic one level type definition parser for interfaces, types, and
       functions
 - [ ] cache version type definition instead
-- [ ] astro + ssr rewrite
+- [x] astro rewrite
 - [ ] use a virtual in memory fs to read all `.d.ts` files from the package
 - [ ] generate types for packages without any declarations
 - [ ] auto redirect to `@types/<pkg>` for known packages
