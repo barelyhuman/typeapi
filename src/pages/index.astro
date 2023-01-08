@@ -25,7 +25,7 @@ const exampleCode = hljs.highlight(exampleURL, { language: 'plaintext' }).value
       <span class="text-white">below</span>
     </p>
     <div class="pt-10 space-y-4">
-      <Command>
+      <Command hidePrefix={true}>
         {exampleCode}
       </Command>
     </div>
