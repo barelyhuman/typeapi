@@ -1,4 +1,23 @@
+import { useEffect, useRef } from 'preact/hooks'
+
 export default function PackageSearchForm() {
+  const inputRef = useRef()
+
+  useEffect(() => {
+    const handler = e => {
+      if (e.keyCode == 191 || e.code == 191) {
+        e.preventDefault()
+        e.stopPropagation()
+        inputRef?.current?.focus?.()
+      }
+    }
+
+    document.addEventListener('keydown', handler)
+    return () => {
+      document.removeEventListener('keydown', handler)
+    }
+  }, [])
+
   return (
     <>
       <form method="GET" action="/pkg-redirect">
@@ -21,10 +40,14 @@ export default function PackageSearchForm() {
             </svg>
           </label>
           <input
+            ref={inputRef}
             class="h-12 w-full bg-transparent py-3 text-sm font-medium text-zinc-50 placeholder-zinc-600 focus:outline-none sm:h-10"
             name="packageName"
             placeholder="package[@version][@tag]"
           />
+          <div class="pointer-events-none absolute right-3 flex h-6 items-center rounded-md border border-zinc-600/20 bg-zinc-600/10 px-1.5 font-mono text-[10px] font-medium text-subtle ring-muted/30 ring-offset-1 ring-offset-surface transition hover:bg-muted/20 hover:text-text focus:text-text focus:outline-none focus:ring">
+            <kbd>/</kbd>
+          </div>
         </div>
       </form>
     </>
