@@ -16,7 +16,8 @@ const typeDefs = await fetchTypeDefinitions(
   pkgName,
   pkgMeta.types || 'dist/index.d.ts'
 )
-const declarations = await readTypescriptFileBuffer(typeDefs)
+
+const declarations = await readTypescriptFileBuffer(typeDefs, pkgName)
 
 declarations.forEach(nodeCodeToHTML, {
   highlighter: code => hljs.highlight(code, { language: 'typescript' }).value,
