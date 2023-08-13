@@ -5,6 +5,9 @@ export default function PackageSearchForm() {
 
   useEffect(() => {
     const handler = e => {
+      if (inputRef.current === document.activeElement) {
+        return
+      }
       if (e.keyCode == 191 || e.code == 191) {
         e.preventDefault()
         e.stopPropagation()
