@@ -7,6 +7,8 @@ import typescript from 'highlight.js/lib/languages/typescript'
 import hljs from 'highlight.js/lib/core'
 import 'highlight.js/styles/nord.css'
 import CodeGroup from '../../components/CodeGroup'
+import { PackageDetails } from '../../components/PackageDetails'
+import { FileTree } from '../../components/FileTree'
 
 hljs.registerLanguage('typescript', typescript)
 
@@ -43,41 +45,54 @@ for (let file of typeFiles) {
 function nodeCodeToHTML(node, index, src) {
   src[index].code = this.highlighter(node.code)
 }
+
+const uniqFiles = []
+
+typeFiles.reduce((acc, item) => {
+  if (acc.has(item.name)) {
+    return acc
+  }
+  acc.add(item.name)
+  uniqFiles.push(item)
+  return acc
+}, new Set())
 ---
 
 <BaseLayout>
-  <div class="flex items-end gap-2 mb-4">
-    <h1 class="font-title text-zinc-200 text-2xl">
-      <span class="text-zinc-600"
-        ><a class="hover:text-zinc-50" href="/">~</a> /</span
-      >
-      {pkgName}
-    </h1>
-    <p>
-      <small class="text-xs">
-        {pkgMeta.version}
-      </small>
-    </p>
+  <div class="flex flex-col">
+    <div>
+      <PackageDetails name={pkgName} version={pkgMeta.version} />
+    </div>
+
+    <div class="flex gap-8">
+      <div class="mt-4">
+        <FileTree files={uniqFiles} />
+      </div>
+      <div class="flex-1">
+        {
+          Object.keys(grouped).map(x => {
+            const fileDef = grouped[x]
+            const byKind = fileDef.byKind
+            const all = fileDef.all
+            return (
+              <div class="py-2 mt-2">
+                <div class="border rounded border-zinc-700 p-2">
+                  <p id={x}>
+                    <a href={`#${x}`}>{x}</a>
+                  </p>
+                </div>
+                <DeclarationRenderer data={byKind} />
+                <CodeGroup name="All">
+                  <pre
+                    class={`ml-2 p-4 select-all whitespace-pre-wrap`}
+                    set:html={all}
+                  />
+                </CodeGroup>
+              </div>
+            )
+          })
+        }
+      </div>
+    </div>
   </div>
-  {
-    Object.keys(grouped).map(x => {
-      const fileDef = grouped[x]
-      const byKind = fileDef.byKind
-      const all = fileDef.all
-      return (
-        <div class="py-2 mt-2">
-          <div class="border rounded border-zinc-700 p-2">
-            <p>{x}</p>
-          </div>
-          <DeclarationRenderer data={byKind} />
-          <CodeGroup name="All">
-            <pre
-              class={`ml-2 p-4 select-all whitespace-pre-wrap`}
-              set:html={all}
-            />
-          </CodeGroup>
-        </div>
-      )
-    })
-  }
 </BaseLayout>
