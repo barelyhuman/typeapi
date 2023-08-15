@@ -60,15 +60,14 @@ typeFiles.reduce((acc, item) => {
 
 <BaseLayout>
   <div class="flex flex-col">
-    <div>
-      <PackageDetails name={pkgName} version={pkgMeta.version} />
-    </div>
-
-    <div class="flex gap-8">
+    <div class="relative flex gap-8">
       <div class="mt-4">
-        <FileTree files={uniqFiles} />
+        <PackageDetails name={pkgName} version={pkgMeta.version} />
+        <div class="pl-4">
+          <FileTree files={uniqFiles} />
+        </div>
       </div>
-      <div class="flex-1">
+      <div class="flex-1 max-h-screen overflow-y-auto pr-4 pt-1 mt-4">
         {
           Object.keys(grouped).map(x => {
             const fileDef = grouped[x]
@@ -76,8 +75,8 @@ typeFiles.reduce((acc, item) => {
             const all = fileDef.all
             return (
               <div class="py-2 mt-2">
-                <div class="border rounded border-zinc-700 p-2">
-                  <p id={x}>
+                <div class="border rounded-sm border-zinc-800 p-2">
+                  <p id={x} class="text-center">
                     <a href={`#${x}`}>{x}</a>
                   </p>
                 </div>

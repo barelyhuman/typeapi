@@ -9,13 +9,9 @@ export function PackageDetails({ name, version }) {
           /
         </span>
         {name}
-        {/* {pkgName} */}
       </h1>
       <p>
-        <small class="text-xs">
-          {version}
-          {/* {pkgMeta.version} */}
-        </small>
+        <small class="text-xs">{version}</small>
       </p>
     </div>
   )

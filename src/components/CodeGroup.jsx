@@ -1,6 +1,6 @@
 export default function CodeGroup({ children, name }) {
   return (
-    <details class="details rounded mb-2 p-4 border-b border-zinc-800" open>
+    <details class="details p-4 border border-t-0 border-zinc-800" open>
       <summary class="flex hover:cursor-pointer select-none items-center font-bold">
         {name}
         <button class="ml-auto">
