@@ -121,7 +121,7 @@ function Tree({ files, depth }) {
   )
 }
 export function FileTree({ files }) {
-  const normalized = files.map(x => x.name).concat('./example/index.d.ts')
+  const normalized = files.map(x => x.name)
   const tree = createTree(normalized)
 
   return (
