@@ -61,7 +61,7 @@ typeFiles.reduce((acc, item) => {
 <BaseLayout>
   <div class="flex flex-col">
     <div class="relative flex gap-8">
-      <div class="mt-4">
+      <div class="mt-8">
         <PackageDetails name={pkgName} version={pkgMeta.version} />
         <div class="pl-4">
           <FileTree files={uniqFiles} />
@@ -73,9 +73,10 @@ typeFiles.reduce((acc, item) => {
             const fileDef = grouped[x]
             const byKind = fileDef.byKind
             const all = fileDef.all
+
             return (
               <div class="py-2 mt-2">
-                <div class="border rounded-sm border-zinc-800 p-2">
+                <div class="border rounded-t border-zinc-800 p-2">
                   <p id={x} class="text-center">
                     <a href={`#${x}`}>{x}</a>
                   </p>

@@ -102,7 +102,7 @@ function Tree({ files, depth }) {
   const cls = depth > 0 ? classes[1] : classes[0]
 
   return (
-    <div class={`${cls} mt-1`}>
+    <div class={`${cls} flex flex-col gap-2`}>
       {fileNames.map(x => (
         <>
           <div class="flex gap-1">
@@ -121,7 +121,7 @@ function Tree({ files, depth }) {
   )
 }
 export function FileTree({ files }) {
-  const normalized = files.map(x => x.name)
+  const normalized = files.map(x => x.name).concat('./example/index.d.ts')
   const tree = createTree(normalized)
 
   return (
