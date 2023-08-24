@@ -7,7 +7,7 @@ export default function DeclarationRenderer({ data }) {
         <ul class="mt-4">
           {data[key].map((x, index) => (
             <li key={`${key}-${x.name}-${index}`}>
-              <p class="font-mono text-zinc-200 px-6">
+              <p class="font-mono text-zinc-[#e4e4e7] px-6">
                 <strong>{x.name}</strong>
               </p>
               <pre
