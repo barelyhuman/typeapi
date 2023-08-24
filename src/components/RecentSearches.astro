@@ -1,5 +1,6 @@
 ---
 import { createClient } from '@vercel/kv'
+import Button from '../components/Button'
 
 const { KV_REST_API_URL, KV_REST_API_TOKEN } = import.meta.env
 
@@ -30,12 +31,9 @@ const recents = (await kv.get('recents')) || placeholderRecents
     {
       recents.map(recent => (
         <li>
-          <a
-            href={`/pkg/${recent}`}
-            class="rounded-md inline-flex p-3 bg-zinc-900 font-mono"
-          >
+          <Button href={`/pkg/${recent}`} variant="secondary">
             {recent}
-          </a>
+          </Button>
         </li>
       ))
     }
