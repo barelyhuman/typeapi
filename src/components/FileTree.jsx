@@ -55,9 +55,8 @@ function FileIcon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      class=""
-      width="24"
-      height="24"
+      width="20"
+      height="20"
       viewBox="0 0 24 24"
       stroke-width="1"
       stroke="currentColor"
@@ -80,9 +79,8 @@ function FolderIcon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      class=""
-      width="24"
-      height="24"
+      width="20"
+      height="20"
       viewBox="0 0 24 24"
       stroke-width="1"
       stroke="currentColor"
@@ -106,9 +104,9 @@ function Tree({ files, depth }) {
       {fileNames.map(x => (
         <>
           <div class="flex gap-1">
-            {depth > 0 && <span class="text-zinc-700">-</span>}
+            {depth > 0 && <span class="font-mono text-zinc-700">-</span>}
             {files[x].isFile ? <FileIcon /> : <FolderIcon />}
-            <a class="hover:text-white" href={'#' + files[x][__path]}>
+            <a class="font-mono hover:text-white" href={'#' + files[x][__path]}>
               {x}
             </a>
           </div>
@@ -125,8 +123,8 @@ export function FileTree({ files }) {
   const tree = createTree(normalized)
 
   return (
-    <div class="flex gap-2 max-w-[250px] overflow-x-auto">
-      <div class="flex flex-col gap-2 text-zinc-500">
+    <div class="flex max-w-[250px] overflow-x-auto">
+      <div class="flex flex-col gap-3 text-zinc-500">
         <Tree files={tree['.'][__children]} depth={0} />
       </div>
     </div>

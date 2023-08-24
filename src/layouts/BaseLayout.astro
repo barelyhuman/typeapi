@@ -55,7 +55,14 @@ const url = Astro.url.pathname
     </main>
 
     <div class="px-6">
-      <footer class="max-w-shell mx-auto"></footer>
+      <footer class="max-w-shell mx-auto flex items-center h-20">
+        <p>
+          Made with fear by <a
+            href="https://github.com/barelyhuman"
+            class="underline-offset-2 underline">reaper</a
+          >
+        </p>
+      </footer>
     </div>
   </body>
 </html>
@@ -74,6 +81,6 @@ const url = Astro.url.pathname
   }
 
   .details[open] {
-    @apply bg-zinc-800;
+    @apply bg-zinc-800/50;
   }
 </style>
