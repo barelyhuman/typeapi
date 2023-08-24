@@ -6,12 +6,12 @@ export default function DeclarationRenderer({ data }) {
       <CodeGroup name={key}>
         <ul class="mt-4">
           {data[key].map((x, index) => (
-            <li key={`${key}-${x.name}-${index}`} className="px-1 py-2">
-              <p class="text-zinc-200">
+            <li key={`${key}-${x.name}-${index}`}>
+              <p class="font-mono text-zinc-200 px-6">
                 <strong>{x.name}</strong>
               </p>
               <pre
-                class={`ml-2 p-4 select-all whitespace-pre-wrap`}
+                class={`ml-4 px-4 pb-6 pt-1.5 select-all whitespace-pre-wrap`}
                 dangerouslySetInnerHTML={{ __html: x.code }}
               ></pre>
             </li>
