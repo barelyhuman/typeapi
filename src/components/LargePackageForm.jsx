@@ -1,26 +1,4 @@
-import { useEffect, useRef } from 'preact/hooks'
-
-export default function PackageSearchForm() {
-  const inputRef = useRef()
-
-  useEffect(() => {
-    const handler = e => {
-      if (inputRef.current === document.activeElement) {
-        return
-      }
-      if (e.keyCode == 191 || e.code == 191) {
-        e.preventDefault()
-        e.stopPropagation()
-        inputRef?.current?.focus?.()
-      }
-    }
-
-    document.addEventListener('keydown', handler)
-    return () => {
-      document.removeEventListener('keydown', handler)
-    }
-  }, [])
-
+export default function LargePackageSearchForm() {
   return (
     <>
       <form method="GET" action="/pkg-redirect" class="w-full">
@@ -45,19 +23,19 @@ export default function PackageSearchForm() {
             </svg>
           </label>
           <input
-            ref={inputRef}
+            type="text"
+            autoFocus
             class="h-16 w-full bg-transparent py-3 font-medium text-zinc-50 placeholder-zinc-500 font-mono focus:outline-none"
             name="packageName"
-            value="@barelyhuman/tocolor"
             placeholder="@barelyhuman/tocolor"
           />
-          <div class="pointer-events-none absolute right-3 flex h-6 items-center rounded-md border border-zinc-600/20 bg-zinc-600/10 px-1.5 font-mono text-[10px] font-medium text-subtle ring-muted/30 ring-offset-1 ring-offset-surface transition hover:bg-muted/20 hover:text-text focus:text-text focus:outline-none focus:ring">
-            <kbd>/</kbd>
-          </div>
         </div>
 
         <div class="pt-10 space-x-3 flex items-center">
-          <button class="inline-flex rounded-md bg-gradient-to-br from-zinc-400 to-white px-6 py-3 text-sm font-semibold text-black transition-shadow hover:shadow">
+          <button
+            type="submit"
+            class="inline-flex rounded-md bg-gradient-to-br from-zinc-400 to-white px-6 py-3 text-sm font-semibold text-black transition-shadow hover:shadow"
+          >
             Generate docs
           </button>
         </div>
