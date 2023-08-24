@@ -15,7 +15,14 @@ const placeholderRecents = [
   '@rose-pine/build',
 ]
 
-const recents = (await kv.get('recents')) || placeholderRecents
+let recents = placeholderRecents
+
+try {
+  const data = await kv.get('recents')
+  if (data.length > 0) {
+    recents = data
+  }
+} catch (e) {}
 ---
 
 <h2 class="font-semibold text-xl tracking-tight">Recent searches</h2>

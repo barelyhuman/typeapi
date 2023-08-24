@@ -8,12 +8,29 @@ const kv = createClient({
   token: KV_REST_API_TOKEN,
 })
 
+async function setRecents(packageName) {
+  try {
+    let recents = await kv.get('recents')
+    if (!recents) {
+      recents = [
+        '@barelyhuman/tocolor@next',
+        'pinecone-cli',
+        '@rose-pine/build',
+      ]
+    }
+    const uniqueRecents = new Set([...recents])
+    uniqueRecents.delete(packageName)
+
+    kv.set('recents', [packageName, ...[...uniqueRecents].slice(0, 10)])
+  } catch (e) {}
+}
+
 /**
  *
  * @param {import('astro').APIContext} options
  * @returns
  */
-export async function get({ request, redirect, params }) {
+export async function get({ request, redirect }) {
   const sp = new URL(request.url).searchParams
 
   const packageName = sp.get('packageName')
@@ -24,12 +41,7 @@ export async function get({ request, redirect, params }) {
 
   try {
     await fetchPackageMeta(packageName)
-
-    const recents = await kv.get('recents')
-    const uniqueRecents = new Set([...recents])
-    uniqueRecents.delete(packageName)
-
-    kv.set('recents', [packageName, ...[...uniqueRecents].slice(0, 10)])
+    await setRecents(packageName)
 
     return redirect(`/pkg/${packageName}`, 307)
   } catch (err) {
