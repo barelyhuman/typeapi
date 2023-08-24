@@ -24,7 +24,7 @@ export default function PackageSearchForm() {
   return (
     <>
       <form method="GET" action="/pkg-redirect" class="w-full">
-        <div class="relative flex items-center space-x-3 overflow-hidden rounded-md border bg-zinc-800 px-3 transition focus-within:ring">
+        <div class="relative flex items-center space-x-3 overflow-hidden rounded-md border bg-zinc-900 px-3 transition focus-within:ring">
           <label>
             <span class="sr-only">Search packages</span>
             <svg

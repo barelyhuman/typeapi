@@ -2,7 +2,7 @@ export default function LargePackageSearchForm() {
   return (
     <>
       <form method="GET" action="/pkg-redirect" class="w-full">
-        <div class="relative flex items-center space-x-3 overflow-hidden rounded-md border bg-zinc-800 px-3 transition focus-within:ring">
+        <div class="relative flex items-center space-x-3 overflow-hidden rounded-md border bg-zinc-900 px-3 transition focus-within:ring">
           <label>
             <span class="sr-only">Search packages</span>
             <svg
@@ -34,7 +34,7 @@ export default function LargePackageSearchForm() {
         <div class="pt-10 space-x-3 flex items-center">
           <button
             type="submit"
-            class="inline-flex rounded-md bg-gradient-to-br from-zinc-400 to-white px-6 py-3 text-sm font-semibold text-black transition-shadow hover:shadow"
+            class="inline-flex rounded-md bg-gradient-to-br from-zinc-400 to-zinc-50 px-6 py-3 text-sm font-semibold text-zinc-950 transition-shadow hover:shadow"
           >
             Generate docs
           </button>

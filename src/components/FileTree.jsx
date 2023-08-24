@@ -106,7 +106,10 @@ function Tree({ files, depth }) {
           <div class="flex gap-1">
             {depth > 0 && <span class="font-mono text-zinc-700">-</span>}
             {files[x].isFile ? <FileIcon /> : <FolderIcon />}
-            <a class="font-mono hover:text-white" href={'#' + files[x][__path]}>
+            <a
+              class="font-mono hover:text-zinc-50"
+              href={'#' + files[x][__path]}
+            >
               {x}
             </a>
           </div>

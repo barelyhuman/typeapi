@@ -22,7 +22,7 @@ const recents = (await kv.get('recents')) || placeholderRecents
 <div class="mt-6 relative">
   <div
     aria-hidden="true"
-    class="pointer-events-none absolute bottom-0 bg-gradient-to-b from-zinc-900/0 via-zinc-900/30 to-zinc-900 inset-x-0 h-10"
+    class="pointer-events-none absolute bottom-0 bg-gradient-to-b from-zinc-950/0 via-zinc-950/30 to-zinc-950 inset-x-0 h-10"
   >
   </div>
 
@@ -32,7 +32,7 @@ const recents = (await kv.get('recents')) || placeholderRecents
         <li>
           <a
             href={`/pkg/${recent}`}
-            class="rounded-md inline-flex p-3 bg-zinc-800 font-mono"
+            class="rounded-md inline-flex p-3 bg-zinc-900 font-mono"
           >
             {recent}
           </a>

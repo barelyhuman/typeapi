@@ -1,7 +1,7 @@
 export default function CodeGroup({ children, name }) {
   return (
     <details
-      class="details border border-t-0 border-zinc-800 [&[open]_svg]:rotate-0"
+      class="open:text-white open:bg-[#18181b] border-t [&[open]_svg]:rotate-0"
       open
     >
       <summary class="p-6 tracking-wide flex hover:cursor-pointer select-none items-center font-semibold [&::-webkit-details-marker]:hidden marker:hidden">

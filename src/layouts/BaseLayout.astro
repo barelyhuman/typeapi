@@ -22,7 +22,7 @@ const url = Astro.url.pathname
         } sm:grid-rows-[5rem] sm:grid-cols-[auto,1fr] items-center gap-6`}
       >
         <div>
-          <a href="/" class="font-mono text-xl font-bold text-white">
+          <a href="/" class="font-mono text-xl font-bold text-zinc-50">
             <span class="text-zinc-400">&lt;type&gt;</span>api
           </a>
         </div>
@@ -35,7 +35,7 @@ const url = Astro.url.pathname
             <div class="justify-self-end">
               <a
                 href="https://github.com/barelyhuman/typeapi"
-                class="flex items-center gap-1.5 rounded px-1 py-0.5 text-sm font-medium text-zinc-400 transition hover:bg-zinc-800 hover:text-white"
+                class="flex items-center gap-1.5 rounded px-1 py-0.5 text-sm font-medium text-zinc-400 transition hover:bg-zinc-900 hover:text-zinc-50"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -77,18 +77,41 @@ const url = Astro.url.pathname
 
 <style is:global>
   :root {
+    --zinc-950: 0 0% 98%;
+    --zinc-900: 240 4.8% 95.9%;
+    --zinc-800: 240 5.9% 90%;
+    --zinc-700: 240 4.9% 83.9%;
+    --zinc-600: 240 5% 64.9%;
+    --zinc-500: 240 3.8% 46.1%;
+    --zinc-400: 240 5.2% 33.9%;
+    --zinc-300: 240 5.3% 26.1%;
+    --zinc-200: 240 3.7% 15.9%;
+    --zinc-100: 240 5.9% 10%;
+    --zinc-50: 240 10% 4%;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --zinc-50: 0 0% 98%;
+      --zinc-100: 240 4.8% 95.9%;
+      --zinc-200: 240 5.9% 90%;
+      --zinc-300: 240 4.9% 83.9%;
+      --zinc-400: 240 5% 64.9%;
+      --zinc-500: 240 3.8% 46.1%;
+      --zinc-600: 240 5.2% 33.9%;
+      --zinc-700: 240 5.3% 26.1%;
+      --zinc-800: 240 3.7% 15.9%;
+      --zinc-900: 240 5.9% 10%;
+      --zinc-950: 240 10% 4%;
+    }
   }
 
   .turbo-progress-bar {
-    @apply h-1 bg-white;
+    @apply h-1 bg-zinc-50;
   }
 
   html,
   body {
-    @apply antialiased bg-zinc-900 text-zinc-400;
-  }
-
-  .details[open] {
-    @apply bg-zinc-800/50;
+    @apply antialiased bg-zinc-950 text-zinc-400;
   }
 </style>
