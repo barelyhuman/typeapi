@@ -15,11 +15,17 @@ const url = Astro.url.pathname
   <body>
     <div class="px-6">
       <header
-        class="max-w-shell mx-auto grid grid-rows-[5rem,3rem] sm:grid-rows-[5rem] sm:grid-cols-[auto,1fr] items-center gap-6"
+        class={`max-w-shell mx-auto grid ${
+          url !== '/'
+            ? 'grid-rows-[5rem,3rem]'
+            : 'grid-rows-[5rem] grid-cols-[auto,1fr]'
+        } sm:grid-rows-[5rem] sm:grid-cols-[auto,1fr] items-center gap-6`}
       >
-        <a href="/" class="font-mono text-xl font-bold text-white">
-          <span class="text-zinc-400">&lt;type&gt;</span>api
-        </a>
+        <div>
+          <a href="/" class="font-mono text-xl font-bold text-white">
+            <span class="text-zinc-400">&lt;type&gt;</span>api
+          </a>
+        </div>
         {
           url !== '/' ? (
             <div class="w-full sm:max-w-[300px] justify-self-center sm:justify-self-end">
@@ -50,7 +56,9 @@ const url = Astro.url.pathname
       </header>
     </div>
 
-    <main class="p-6 mx-auto min-h-[calc(100vh-8rem)]">
+    <main
+      class="p-6 mx-auto min-h-[calc(100vh-8rem-5rem)] sm:min-h-[calc(100vh-5rem-5rem)]"
+    >
       <slot />
     </main>
 
