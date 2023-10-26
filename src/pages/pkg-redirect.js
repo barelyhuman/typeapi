@@ -1,19 +1,23 @@
 import { createClient } from '@vercel/kv'
 import { fetchPackageMeta } from '../lib/api'
 
-const { KV_REST_API_URL, KV_REST_API_TOKEN } = import.meta.env
-
-const kv = createClient({
-  url: KV_REST_API_URL,
-  token: KV_REST_API_TOKEN,
-})
-
 async function setRecents(packageName) {
   try {
+    const { KV_REST_API_URL, KV_REST_API_TOKEN } = import.meta.env
+
+    const kv = createClient({
+      url: KV_REST_API_URL,
+      token: KV_REST_API_TOKEN,
+    })
+
     let recents = await kv.get('recents')
     if (!recents) {
       recents = [
         '@barelyhuman/tocolor@next',
+        '@barelyreaper/themer',
+        'spacery',
+        'jotai-form',
+        'sizesnap',
         'pinecone-cli',
         '@rose-pine/build',
       ]

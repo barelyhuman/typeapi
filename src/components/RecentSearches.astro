@@ -2,22 +2,22 @@
 import { createClient } from '@vercel/kv'
 import Button from '../components/Button'
 
-const { KV_REST_API_URL, KV_REST_API_TOKEN } = import.meta.env
-
-const kv = createClient({
-  url: KV_REST_API_URL,
-  token: KV_REST_API_TOKEN,
-})
-
-const placeholderRecents = [
+let recents = [
   '@barelyhuman/tocolor@next',
+  '@barelyreaper/themer',
+  'spacery',
+  'jotai-form',
+  'sizesnap',
   'pinecone-cli',
   '@rose-pine/build',
 ]
 
-let recents = placeholderRecents
-
 try {
+  const { KV_REST_API_URL, KV_REST_API_TOKEN } = import.meta.env
+  const kv = createClient({
+    url: KV_REST_API_URL,
+    token: KV_REST_API_TOKEN,
+  })
   const data = await kv.get('recents')
   if (data.length > 0) {
     recents = data
