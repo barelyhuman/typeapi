@@ -1,14 +1,17 @@
 export default function CodeGroup({ children, name }) {
   return (
-    <details class="details p-4 border border-t-0 border-zinc-800" open>
-      <summary class="flex hover:cursor-pointer select-none items-center font-bold">
+    <details
+      class="open:text-white open:bg-[#18181b] border-t [&[open]_svg]:rotate-0"
+      open
+    >
+      <summary class="p-6 tracking-wide flex hover:cursor-pointer select-none items-center font-semibold [&::-webkit-details-marker]:hidden marker:hidden">
         {name}
-        <button class="ml-auto">
+        <div class="ml-auto">
           <svg
-            class="opacity-75 w-4 h-4 -mr-1"
+            class="rotate-[270deg]"
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
             stroke-width="2"
             stroke="currentColor"
@@ -19,7 +22,7 @@ export default function CodeGroup({ children, name }) {
             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
-        </button>
+        </div>
       </summary>
       {children}
     </details>
