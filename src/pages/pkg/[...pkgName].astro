@@ -39,6 +39,8 @@ const typeFiles = []
 
 await Promise.all(
   typeDefFiles.map(async fileDef => {
+    const isGlob = /[\[\]\{\}\*]/.test(fileDef)
+    if (isGlob) return
     const definitions = await fetchTypeDefinitions(pkgName, fileDef)
     const _typeFiles = await getTypeDefFiles(definitions, pkgName)
     _typeFiles[0].name = fileDef

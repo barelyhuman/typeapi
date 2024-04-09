@@ -14,7 +14,8 @@ export async function fetchTypeDefinitions(pkgName, typeFilePath) {
 
   const response = await fetch(urlPath)
   if (!response.ok) {
-    throw new Error(errText)
+    const err = await response.text()
+    throw new Error(err)
   }
 
   const defs = await response.text()
