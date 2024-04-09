@@ -13,7 +13,7 @@
     "start": "astro dev"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,astro,md,json,yaml,yml}": [
+    "*.{js,jsx,ts,tsx,md,json,yaml,yml}": [
       "npx prettier --write"
     ]
   },
