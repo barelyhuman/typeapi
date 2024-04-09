@@ -23,10 +23,12 @@ export default function PackageSearchForm() {
 
   return (
     <>
-      <form method="GET" action="/pkg-redirect">
-        <div class="relative flex h-12 w-full max-w-sm items-center space-x-3 overflow-hidden rounded-md border bg-zinc-800 px-3 transition focus-within:ring">
+      <form method="GET" action="/pkg-redirect" class="w-full">
+        <div class="relative flex items-center space-x-3 overflow-hidden rounded-md border bg-zinc-900 px-3 transition focus-within:ring">
           <label>
+            <span class="sr-only">Search packages</span>
             <svg
+              aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               width="20"
               height="20"
@@ -44,7 +46,7 @@ export default function PackageSearchForm() {
           </label>
           <input
             ref={inputRef}
-            class="h-12 w-full bg-transparent py-3 text-sm font-medium text-zinc-50 placeholder-zinc-600 focus:outline-none sm:h-10"
+            class="font-mono h-12 w-full bg-transparent py-3 font-medium text-zinc-50 placeholder-zinc-500 focus:outline-none sm:h-10 sm:text-sm"
             name="packageName"
             placeholder="package[@version][@tag]"
           />

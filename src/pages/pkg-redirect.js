@@ -1,11 +1,12 @@
 import { fetchPackageMeta } from '../lib/api'
+import { recents as cache } from '../lib/recent'
 
 /**
  *
  * @param {import('astro').APIContext} options
  * @returns
  */
-export async function get({ request, redirect, params }) {
+export async function get({ request, redirect }) {
   const sp = new URL(request.url).searchParams
 
   const packageName = sp.get('packageName')
@@ -15,6 +16,7 @@ export async function get({ request, redirect, params }) {
   }
 
   try {
+    cache.add(packageName)
     await fetchPackageMeta(packageName)
     return redirect(`/pkg/${packageName}`, 307)
   } catch (err) {
