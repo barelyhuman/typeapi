@@ -92,7 +92,7 @@ typeFiles.reduce((acc, item) => {
     >
       <div class="sticky top-0 py-1 rounded-md md:min-h-screen bg-zinc-950">
         <PackageDetails name={pkgName} version={pkgMeta.version} />
-        <div class="md:min-h-screen md:max-h-screen max-w-full overflow-auto">
+        <div class="md:min-h-[80vh] md:max-h-[80vh] max-w-full overflow-auto">
           <FileTree files={uniqFiles} />
         </div>
       </div>
