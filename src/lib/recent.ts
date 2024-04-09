@@ -24,7 +24,7 @@ function createRecentHolder() {
     },
     add(item: string) {
       const items = this.get()
-      const uniqueSet = new Set(...items)
+      const uniqueSet = new Set(items)
       uniqueSet.delete(item)
       recents.set('recents', [item, ...uniqueSet])
     },
