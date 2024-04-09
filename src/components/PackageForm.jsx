@@ -1,18 +1,14 @@
 import { useEffect, useRef } from 'preact/hooks'
+import { createInputFocus } from '../lib/keymaps/input'
 
 export default function PackageSearchForm() {
   const inputRef = useRef()
 
   useEffect(() => {
-    const handler = e => {
-      if (inputRef.current === document.activeElement) {
-        return
-      }
-    }
-
-    document.addEventListener('keydown', handler)
+    if (!inputRef?.current) return
+    const onCleanup = createInputFocus(inputRef.current, 'Slash')
     return () => {
-      document.removeEventListener('keydown', handler)
+      onCleanup()
     }
   }, [])
 

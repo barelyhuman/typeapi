@@ -39,6 +39,7 @@ import Button from '../components/Button'
             </label>
             <input
               type="text"
+              id="package-input"
               class="h-16 w-full bg-transparent py-3 font-medium text-zinc-50 placeholder-zinc-500 font-mono focus:outline-none"
               name="packageName"
               placeholder="@barelyhuman/tocolor"
@@ -55,4 +56,8 @@ import Button from '../components/Button'
       <RecentSearches />
     </section>
   </div>
+  <script>
+    import { createInputFocus } from '../lib/keymaps/input'
+    createInputFocus('#package-input', 'Slash')
+  </script>
 </BaseLayout>

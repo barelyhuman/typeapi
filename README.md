@@ -30,4 +30,4 @@ https://typeapi.barelyhuman.dev/pkg/@barelyhuman/tocolor@next
 - [ ] generate types for packages without any declarations
 - [ ] auto redirect to `@types/<pkg>` for known packages
 - [x] a friendlier UI
-      - [ ] Keyboard Accessible (has some points missing)
+  - [x] Keyboard Accessible (has some points missing)
