@@ -27,4 +27,5 @@ https://typeapi.barelyhuman.dev/pkg/@barelyhuman/tocolor@next
 - [ ] use a virtual in memory fs to read all `.d.ts` files from the package
 - [ ] generate types for packages without any declarations
 - [ ] auto redirect to `@types/<pkg>` for known packages
-- [ ] a friendlier UI
+- [x] a friendlier UI
+      - [ ] Keyboard Accessible (has some points missing)
