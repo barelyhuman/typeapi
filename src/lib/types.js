@@ -1,6 +1,6 @@
 import ts from 'typescript'
 import { fetchTypeDefinitions } from './api'
-import { extname } from 'path'
+import { extname, basename } from 'path'
 
 const typeMap = {
   type: {
@@ -85,7 +85,11 @@ export async function findTypeDef(child, sourceFile) {
 
 export async function getTypeDefFiles(entryTypeDef, pkgName) {
   // entry type def file
-  const entrySourceFile = ts.createSourceFile('index.d.ts', entryTypeDef)
+  const name = basename(entryTypeDef)
+  const entrySourceFile = ts.createSourceFile(
+    name || 'index.d.ts',
+    entryTypeDef
+  )
   const relativeFiles = []
 
   relativeFiles.push({
@@ -130,4 +134,20 @@ export async function getTypeDefFiles(entryTypeDef, pkgName) {
   }
 
   return relativeFiles
+}
+
+export function findAllTypeFiles(obj) {
+  const keys = Object.keys(obj)
+  let typeDefFiles = []
+  for (let i = 0; i <= keys.length; i++) {
+    const key = keys[i]
+    const item = obj[key]
+    if (typeof item === 'string') {
+      const hasMatch = ['d.ts', 'd.mts', 'd.cts'].some(d => item.endsWith(d))
+      if (hasMatch) typeDefFiles.push(item)
+    } else if (typeof obj[key] === 'object') {
+      typeDefFiles = typeDefFiles.concat(findAllTypeFiles(obj[key]))
+    }
+  }
+  return typeDefFiles
 }

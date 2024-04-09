@@ -1,6 +1,10 @@
 ---
 import { fetchPackageMeta, fetchTypeDefinitions } from '../../lib/api'
-import { getTypeDefFiles, collectDeclarations } from '../../lib/types'
+import {
+  getTypeDefFiles,
+  collectDeclarations,
+  findAllTypeFiles,
+} from '../../lib/types'
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import DeclarationRenderer from '../../components/DeclarationRenderer'
 import typescript from 'highlight.js/lib/languages/typescript'
@@ -9,17 +13,38 @@ import 'highlight.js/styles/nord.css'
 import CodeGroup from '../../components/CodeGroup'
 import { PackageDetails } from '../../components/PackageDetails'
 import { FileTree } from '../../components/FileTree'
+import { join } from 'node:path'
 
 hljs.registerLanguage('typescript', typescript)
 
 const pkgName = Astro.params.pkgName
 const pkgMeta = await fetchPackageMeta(pkgName)
-const typeDefs = await fetchTypeDefinitions(
-  pkgName,
-  pkgMeta.types || 'dist/index.d.ts'
-)
 
-const typeFiles = await getTypeDefFiles(typeDefs, pkgName)
+let typeDefFiles = []
+
+if (pkgMeta.types) {
+  typeDefFiles.push(pkgMeta.types)
+}
+
+if (pkgMeta.exports) {
+  const otherTypeDefs = findAllTypeFiles(pkgMeta.exports)
+  typeDefFiles.push(...otherTypeDefs)
+}
+
+if (typeDefFiles.length == 0) {
+  typeDefFiles.push('dist/index.d.ts')
+}
+
+const typeFiles = []
+
+await Promise.all(
+  typeDefFiles.map(async fileDef => {
+    const definitions = await fetchTypeDefinitions(pkgName, fileDef)
+    const _typeFiles = await getTypeDefFiles(definitions, pkgName)
+    _typeFiles[0].name = fileDef
+    typeFiles.push(..._typeFiles)
+  })
+)
 
 const grouped = {}
 
@@ -35,7 +60,7 @@ for (let file of typeFiles) {
     return acc
   }, {})
 
-  grouped[file.name] = {
+  grouped[join(file.name)] = {
     declarations: declarations,
     byKind: declarationsByKind,
     all: hljs.highlight(file.typeDefs, { language: 'typescript' }).value,
@@ -61,15 +86,15 @@ typeFiles.reduce((acc, item) => {
 <BaseLayout>
   <div class="my-20">
     <div
-      class="max-w-shell mx-auto grid grid-cols-1 md:grid-cols-[minmax(240px,auto),1fr] gap-6"
+      class="max-w-shell mx-auto grid grid-cols-1 md:grid-cols-[minmax(240px,auto),1fr] gap-6 items-start"
     >
-      <div class="">
+      <div class="sticky top-0 py-1 rounded-md md:min-h-screen bg-zinc-950">
         <PackageDetails name={pkgName} version={pkgMeta.version} />
-        <div>
+        <div class="md:min-h-screen md:max-h-screen max-w-full overflow-auto">
           <FileTree files={uniqFiles} />
         </div>
       </div>
-      <div class="max-h-screen overflow-y-auto">
+      <div>
         {
           Object.keys(grouped).map(x => {
             const fileDef = grouped[x]
@@ -77,7 +102,7 @@ typeFiles.reduce((acc, item) => {
             const all = fileDef.all
 
             return (
-              <div class="overflow-hidden border rounded">
+              <div class="overflow-hidden mb-2 border rounded">
                 <p id={x} class="text-center p-1.5">
                   <a href={`#${x}`}>{x}</a>
                 </p>

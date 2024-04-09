@@ -1,54 +1,48 @@
-const __children = Symbol.for('children')
-const __path = Symbol.for('path')
-const __parent = Symbol.for('parent')
+const FILES = Symbol('files')
+const DIRS = Symbol('dirs')
+import { join } from 'node:path'
 
 function createTree(files) {
-  const tree = {}
-
-  // Circular Root
-  tree['.'] = {
-    [__children]: {},
-    [__path]: '.',
-  }
-
-  // Circular Root
-  tree['.'][__parent] = tree['.']
-  const wordRegex = /(\w+\s*)+/
-
-  for (const file of files) {
-    let pointer = tree['.']
-    const pathSplits = file.split('/')
-    for (let i = 0; i < pathSplits.length; i++) {
-      const p = pathSplits[i]
-      const prev = pathSplits[i - 1]
-      const next = pathSplits[i + 1]
-
-      if (p == '.') continue
-      if (p == '..') {
-        pointer = pointer[__parent]
-        continue
-      }
-
-      if (!wordRegex.test(p)) continue
-
-      if (prev && wordRegex.test(prev)) {
-        const parentExists = Object.keys(pointer[__children]).includes(prev)
-
-        if (parentExists) {
-          pointer = pointer[__children][prev]
-        }
-      }
-
-      pointer[__children][p] = {
-        isFile: next === undefined ? true : false,
-        [__path]: [pointer[__path], p].join('/'),
-        [__parent]: pointer,
-        [__children]: {},
-      }
+  const rootObject = groupBySplits(files)
+  const tree = splitObjectByKeys(rootObject, '.')
+  const result = {}
+  Object.keys(tree).forEach(k => {
+    result[DIRS] = {
+      [k]: tree[k],
     }
+  })
+  return result
+
+  // helper defs
+  function groupBySplits(paths) {
+    return paths.reduce((acc, item) => {
+      const paths = item.split('/')
+      const root = paths[0]
+      ;(acc[root] ||= []).push(item.slice(paths[0].length + 1))
+      return acc
+    }, {})
   }
 
-  return tree
+  function splitObjectByKeys(obj, prevPath = '') {
+    Object.keys(obj).forEach(k => {
+      const dirs = []
+      const files = []
+      obj[k].forEach(o => {
+        if (o.split('/').length > 1) {
+          dirs.push(o)
+        } else {
+          files.push(o)
+        }
+      })
+      obj[k] = {}
+      obj[k][DIRS] = groupBySplits(dirs)
+      if (typeof obj[k][DIRS] == 'object') {
+        obj[k][DIRS] = splitObjectByKeys(obj[k][DIRS], join(prevPath, k))
+      }
+      obj[k][FILES] = files.map(d => join(prevPath, k, d))
+    })
+    return obj
+  }
 }
 
 function FileIcon() {
@@ -94,41 +88,71 @@ function FolderIcon() {
   )
 }
 
-function Tree({ files, depth }) {
-  const fileNames = Object.keys(files)
+function Tree({ dirs = {}, files = [], depth }) {
+  const dirNames = Object.keys(dirs).sort((x, y) =>
+    x.toLocaleLowerCase().localeCompare(y.toLocaleLowerCase())
+  )
   const classes = ['pl-2', 'pl-4']
   const cls = depth > 0 ? classes[1] : classes[0]
+  const fileBaseNames = files
+    .map(d => ({
+      path: d,
+      basename: d.split('/').slice(-1).join(''),
+    }))
+    .sort((x, y) =>
+      x.basename
+        .toLocaleLowerCase()
+        .localeCompare(y.basename.toLocaleLowerCase())
+    )
 
   return (
     <div class={`${cls} flex flex-col gap-2`}>
-      {fileNames.map(x => (
-        <>
-          <div class="flex gap-1">
-            {depth > 0 && <span class="font-mono text-zinc-700">-</span>}
-            {files[x].isFile ? <FileIcon /> : <FolderIcon />}
-            <a
-              class="font-mono hover:text-zinc-50"
-              href={'#' + files[x][__path]}
-            >
-              {x}
-            </a>
-          </div>
-          {files[x][__children] && (
-            <Tree files={files[x][__children]} depth={depth + 1} />
-          )}
-        </>
-      ))}
+      {dirNames.map(x => {
+        return (
+          <>
+            <div class="flex gap-1">
+              <FolderIcon />
+              <a
+                class="font-mono hover:cursor-not-allowed"
+                aria-disabled={true}
+              >
+                {x}
+              </a>
+            </div>
+            <Tree
+              dirs={dirs[x][DIRS]}
+              files={dirs[x][FILES]}
+              depth={depth + 1}
+            />
+          </>
+        )
+      })}
+      {fileBaseNames.map(x => {
+        return (
+          <>
+            <div class="flex gap-1">
+              <FileIcon />
+              <a
+                class="font-mono hover:text-zinc-50"
+                href={'#' + x.path}
+                aria-label={x.path}
+              >
+                {x.basename}
+              </a>
+            </div>
+          </>
+        )
+      })}
     </div>
   )
 }
 export function FileTree({ files }) {
   const normalized = files.map(x => x.name)
   const tree = createTree(normalized)
-
   return (
-    <div class="flex max-w-[250px] overflow-x-auto">
+    <div class="flex min-h-[inherit] max-h-[inherit] max-w-[inherit] max-w-[260px] overflow-x-auto">
       <div class="flex flex-col gap-3 text-zinc-500">
-        <Tree files={tree['.'][__children]} depth={0} />
+        <Tree dirs={tree[DIRS]} files={tree[FILES]} depth={0} />
       </div>
     </div>
   )
