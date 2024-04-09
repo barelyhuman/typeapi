@@ -8,11 +8,6 @@ export default function PackageSearchForm() {
       if (inputRef.current === document.activeElement) {
         return
       }
-      if (e.keyCode == 191 || e.code == 191) {
-        e.preventDefault()
-        e.stopPropagation()
-        inputRef?.current?.focus?.()
-      }
     }
 
     document.addEventListener('keydown', handler)
