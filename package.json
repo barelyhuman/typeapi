@@ -12,7 +12,8 @@
     "fix": "prettier --write .",
     "prepare": "husky install",
     "preview": "astro preview",
-    "start": "astro dev"
+    "start": "astro dev",
+    "next": "bumpp"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,md,json,yaml,yml}": [
@@ -40,6 +41,7 @@
   "devDependencies": {
     "@barelyhuman/knex-types": "^0.0.5",
     "@barelyhuman/prettier-config": "^1.1.0",
+    "bumpp": "^9.4.0",
     "husky": "^9.0.11",
     "knex": "^3.1.0",
     "lint-staged": "^15.2.2",
