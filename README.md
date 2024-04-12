@@ -2,6 +2,12 @@
 
 > A simple web based typescript type definitions parser
 
+- [typeapi](#typeapi)
+  - [Usecase](#usecase)
+  - [Usage](#usage)
+  - [Self Hosting](#self-hosting)
+  - [Roadmap](#roadmap)
+
 ## Usecase
 
 Need a simple way to find out what types are exposed by a library, kinda like an
@@ -18,7 +24,20 @@ eg:
 https://typeapi.barelyhuman.dev/pkg/@barelyhuman/tocolor@next
 ```
 
-### Roadmap
+## Self Hosting
+
+- typeAPI is available as a runnable docker image that can be run in the
+  following manner
+
+```sh
+docker pull ghcr.io/barelyhuman/typeapi:<version> # replace <version> with the latest tag from the releases section
+docker run -d -p="4321:4321" ghcr.io/barelyhuman/typeapi:<version> # unpersisted version
+
+# persisted version, give save the data in the current folder (if you'd like to replicate the db for backup)
+docker run -d -v ${PWD}:/data -e "DB_PATH=/data/data.db" -p="4321:4321" ghcr.io/barelyhuman/typeapi:<version>
+```
+
+## Roadmap
 
 - [x] basic one level type definition parser for interfaces, types, and
       functions
