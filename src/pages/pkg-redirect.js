@@ -1,5 +1,4 @@
 import { fetchPackageMeta } from '../lib/api'
-import { recents as cache } from '../lib/recent'
 
 /**
  *
@@ -17,7 +16,6 @@ export async function GET({ request, redirect }) {
 
   try {
     await fetchPackageMeta(packageName)
-    cache.add(packageName)
     return redirect(`/pkg/${packageName}`, 307)
   } catch (err) {
     return redirect(`/not-found`, 307)

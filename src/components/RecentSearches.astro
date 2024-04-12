@@ -4,7 +4,7 @@ import Button from '../components/Button'
 
 let recents = []
 try {
-  recents = recentCache.get()
+  recents = await recentCache.get()
 } catch (e) {}
 ---
 
@@ -17,7 +17,7 @@ try {
         <div
           aria-hidden="true"
           class="pointer-events-none absolute bottom-0 bg-gradient-to-b from-zinc-950/0 via-zinc-950/30 to-zinc-950 inset-x-0 h-10"
-        ></div>
+        />
 
         <ul class="gap-3 flex items-center flex-wrap">
           {recents.map(recent => (

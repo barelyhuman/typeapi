@@ -1,5 +1,6 @@
 ---
 import { fetchPackageMeta, fetchTypeDefinitions } from '../../lib/api'
+import { recents } from '@/lib/recent'
 import {
   getTypeDefFiles,
   collectDeclarations,
@@ -19,6 +20,7 @@ hljs.registerLanguage('typescript', typescript)
 
 const pkgName = Astro.params.pkgName
 const pkgMeta = await fetchPackageMeta(pkgName)
+await recents.add(pkgName)
 
 let typeDefFiles = []
 

@@ -1,0 +1,13 @@
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - '4321:4321'
+    environment:
+      DB_PATH: /data/data.db
+    volumes:
+      - local-sqlite:/data
+
+volumes:
+  local-sqlite:

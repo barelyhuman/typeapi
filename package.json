@@ -7,6 +7,8 @@
     "astro": "astro",
     "build": "astro build",
     "dev": "astro dev",
+    "docker": "docker compose -f docker-compose.local.yml",
+    "docker:up": "pnpm docker up -d",
     "fix": "prettier --write .",
     "prepare": "husky install",
     "preview": "astro preview",
@@ -22,11 +24,13 @@
     "json5": "^2.2.3"
   },
   "dependencies": {
+    "@astrojs/node": "^8.2.5",
     "@astrojs/preact": "^3.1.2",
     "@astrojs/tailwind": "^5.1.0",
     "@astrojs/vercel": "^7.5.2",
     "@hotwired/turbo": "^8.0.4",
     "astro": "^4.5.17",
+    "better-sqlite3": "^9.5.0",
     "highlight.js": "^11.9.0",
     "lru-cache": "^10.2.0",
     "preact": "^10.20.1",
@@ -34,8 +38,10 @@
     "typescript": "^5.4.4"
   },
   "devDependencies": {
+    "@barelyhuman/knex-types": "^0.0.5",
     "@barelyhuman/prettier-config": "^1.1.0",
     "husky": "^9.0.11",
+    "knex": "^3.1.0",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5"
   }
