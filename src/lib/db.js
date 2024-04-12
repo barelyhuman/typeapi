@@ -3,7 +3,6 @@ import { join, dirname } from 'node:path'
 import { mkdir } from 'node:fs/promises'
 
 const dbPath = process.env.DB_PATH || join(process.cwd(), 'data/data.db')
-console.log({ dbPath })
 
 /**
  * @type {import("knex").Knex.Config}
