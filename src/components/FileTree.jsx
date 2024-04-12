@@ -5,13 +5,7 @@ import { join } from 'node:path'
 function createTree(files) {
   const rootObject = groupBySplits(files.map(d => join(d)))
   const tree = splitObjectByKeys(rootObject, '.')
-  const result = {}
-  Object.keys(tree).forEach(k => {
-    result[DIRS] = {
-      [k]: tree[k],
-    }
-  })
-  return result
+  return tree
 
   // helper defs
   function groupBySplits(paths) {
@@ -152,7 +146,16 @@ export function FileTree({ files }) {
   return (
     <div class="flex min-h-[inherit] max-h-[inherit] max-w-[inherit] max-w-[260px] overflow-x-auto">
       <div class="flex flex-col gap-3 text-zinc-500">
-        <Tree dirs={tree[DIRS]} files={tree[FILES]} depth={0} />
+        {Object.keys(tree).map(rootKey => {
+          console.log({ rootKey, d: tree[rootKey] })
+          return (
+            <Tree
+              dirs={tree[rootKey][DIRS]}
+              files={tree[rootKey][FILES]}
+              depth={0}
+            />
+          )
+        })}
       </div>
     </div>
   )

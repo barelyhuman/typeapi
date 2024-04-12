@@ -92,7 +92,7 @@ typeFiles.reduce((acc, item) => {
     <div
       class="max-w-shell mx-auto grid grid-cols-1 md:grid-cols-[minmax(240px,auto),1fr] gap-6 items-start"
     >
-      <div class="sticky top-0 py-1 rounded-md md:min-h-screen bg-zinc-950">
+      <div class="md:sticky top-0 py-1 rounded-md md:min-h-screen bg-zinc-950">
         <PackageDetails name={pkgName} version={pkgMeta.version} />
         <div class="md:min-h-[80vh] md:max-h-[80vh] max-w-full overflow-auto">
           <FileTree files={uniqFiles} />
