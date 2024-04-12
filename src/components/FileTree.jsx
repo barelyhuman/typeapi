@@ -3,7 +3,7 @@ const DIRS = Symbol('dirs')
 import { join } from 'node:path'
 
 function createTree(files) {
-  const rootObject = groupBySplits(files)
+  const rootObject = groupBySplits(files.map(d => join(d)))
   const tree = splitObjectByKeys(rootObject, '.')
   const result = {}
   Object.keys(tree).forEach(k => {
