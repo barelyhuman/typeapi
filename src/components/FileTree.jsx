@@ -1,6 +1,8 @@
+import { djb2 } from '@dumbjs/quick-hash'
+import { join } from 'pathe'
+import { useState } from 'preact/hooks'
 const FILES = Symbol('files')
 const DIRS = Symbol('dirs')
-import { join } from 'node:path'
 
 function createTree(files) {
   const rootObject = groupBySplits(files.map(d => join(d)))
@@ -82,10 +84,38 @@ function FolderIcon() {
   )
 }
 
+function FolderIconClosed() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M5 4h4l3 3h7a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-11a2 2 0 0 1 2 -2" />
+    </svg>
+  )
+}
+
 function Tree({ dirs = {}, files = [], depth }) {
   const dirNames = Object.keys(dirs).sort((x, y) =>
     x.toLocaleLowerCase().localeCompare(y.toLocaleLowerCase())
   )
+  const dirHashs = Object.fromEntries(dirNames.map(d => [d, djb2(d)]))
+  const [isOpen, setIsOpen] = useState(
+    Object.fromEntries(
+      Object.keys(dirHashs).map(d => {
+        return [d, false]
+      })
+    )
+  )
+
   const classes = ['pl-2', 'pl-4']
   const cls = depth > 0 ? classes[1] : classes[0]
   const fileBaseNames = files
@@ -102,22 +132,33 @@ function Tree({ dirs = {}, files = [], depth }) {
   return (
     <div class={`${cls} flex flex-col gap-2`}>
       {dirNames.map(x => {
+        const isFolderOpen = isOpen[dirHashs[x]]
         return (
           <>
             <div class="flex gap-1">
-              <FolderIcon />
+              {isFolderOpen ? <FolderIcon /> : <FolderIconClosed />}
               <a
-                class="font-mono hover:cursor-not-allowed"
-                aria-disabled={true}
+                class="font-mono cursor-pointer hover:text-zinc-50"
+                onClick={() => {
+                  setIsOpen(prev => {
+                    const next = Object.assign({}, prev, {
+                      [dirHashs[x]]: !prev[dirHashs[x]],
+                    })
+
+                    return next
+                  })
+                }}
               >
                 {x}
               </a>
             </div>
-            <Tree
-              dirs={dirs[x][DIRS]}
-              files={dirs[x][FILES]}
-              depth={depth + 1}
-            />
+            {isFolderOpen ? (
+              <Tree
+                dirs={dirs[x][DIRS]}
+                files={dirs[x][FILES]}
+                depth={depth + 1}
+              />
+            ) : null}
           </>
         )
       })}
@@ -127,7 +168,7 @@ function Tree({ dirs = {}, files = [], depth }) {
             <div class="flex gap-1">
               <FileIcon />
               <a
-                class="font-mono hover:text-zinc-50"
+                class="font-mono cursor-pointer hover:text-zinc-50"
                 href={'#' + x.path}
                 aria-label={x.path}
               >
@@ -140,14 +181,20 @@ function Tree({ dirs = {}, files = [], depth }) {
     </div>
   )
 }
-export function FileTree({ files }) {
-  const normalized = files.map(x => x.name)
-  const tree = createTree(normalized)
+export function FileTree({ files } = {}) {
+  const tree = createTree(files)
+  const treeOrder = Object.keys(tree).sort((x, y) => {
+    if (Object.keys(tree[x][DIRS]).length > 0) {
+      return -1
+    } else {
+      return 2
+    }
+  })
+
   return (
     <div class="flex min-h-[inherit] max-h-[inherit] max-w-[inherit] max-w-[260px] overflow-x-auto">
       <div class="flex flex-col gap-3 text-zinc-500">
-        {Object.keys(tree).map(rootKey => {
-          console.log({ rootKey, d: tree[rootKey] })
+        {treeOrder.map(rootKey => {
           return (
             <Tree
               dirs={tree[rootKey][DIRS]}
