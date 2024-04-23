@@ -95,7 +95,12 @@ typeFiles.reduce((acc, item) => {
       <div class="md:sticky top-0 py-1 rounded-md md:min-h-screen bg-zinc-950">
         <PackageDetails name={pkgName} version={pkgMeta.version} />
         <div class="md:min-h-[80vh] md:max-h-[80vh] max-w-full overflow-auto">
-          <FileTree files={uniqFiles} />
+          <FileTree
+            client:load
+            files={uniqFiles
+              .map(d => d.name)
+              .sort((x, y) => x.localeCompare(y))}
+          />
         </div>
       </div>
       <div>
